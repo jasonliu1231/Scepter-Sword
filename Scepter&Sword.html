@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>原初之心計算機</title>
+    <style>
+        :root {
+            --bg: #0b1220;
+            --card: #111a2b;
+            --muted: #93a4c3;
+            --text: #eaf2ff;
+            --acc: #6aa9ff;
+            --line: #1f2b44
+        }
+
+        * {
+            box-sizing: border-box
+        }
+
+        body {
+            margin: 0;
+            background: radial-gradient(1200px 800px at 70% -10%, #18223a 0%, #0b1220 60%), var(--bg);
+            font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", sans-serif;
+            color: var(--text)
+        }
+
+        .wrap {
+            max-width: 1100px;
+            margin: 32px auto;
+            padding: 0 16px
+        }
+
+        h1 {
+            font-size: 28px;
+            margin: 0 0 8px
+        }
+
+        .sub {
+            color: var(--muted);
+            margin-bottom: 20px
+        }
+
+        .grid {
+            display: grid;
+            gap: 12px;
+            grid-template-columns: repeat(12, 1fr)
+        }
+
+        .card {
+            background: linear-gradient(180deg, rgba(255, 255, 255, .02), transparent), var(--card);
+            border: 1px solid var(--line);
+            border-radius: 14px;
+            padding: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, .25)
+        }
+
+        .card h2 {
+            font-size: 16px;
+            margin: 0 0 12px;
+            color: #bcd3ff
+        }
+
+        .row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 10px 0
+        }
+
+        .label {
+            width: 300px;
+            color: #b8c7e6
+        }
+
+        input[type="number"] {
+            width: 110px;
+            padding: 8px 10px;
+            border-radius: 10px;
+            background: #0f172a;
+            color: var(--text);
+            border: 1px solid #233153;
+            outline: none;
+            font-size: 15px
+        }
+
+        input[type="number"]:focus {
+            border-color: #6aa9ff;
+            box-shadow: 0 0 0 3px rgba(106, 169, 255, .25)
+        }
+
+        .unit {
+            color: var(--muted)
+        }
+
+        .btns {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 12px
+        }
+
+        button {
+            background: #1f2c4b;
+            color: var(--text);
+            border: 1px solid #2d3e66;
+            padding: 10px 14px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 700
+        }
+
+        button.primary {
+            background: #2463eb;
+            border-color: #2463eb
+        }
+
+        button.ghost {
+            background: transparent
+        }
+
+        .out {
+            display: flex;
+            flex-direction: column;
+            gap: 8px
+        }
+
+        .total {
+            font-size: 40px;
+            font-weight: 900;
+            letter-spacing: .5px;
+            background: linear-gradient(90deg, #9bdfff, #6aa9ff 60%, #a3b3ff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 24px rgba(106, 169, 255, .3)
+        }
+
+        .stars {
+            font-size: 18px;
+            font-weight: 800;
+            color: #bcd3ff
+        }
+
+        .break {
+            border-top: 1px dashed var(--line);
+            padding-top: 10px;
+            margin-top: 10px;
+            color: #cfe0ff;
+            line-height: 1.7
+        }
+
+        .kpi {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin-top: 8px
+        }
+
+        .kpi div {
+            background: #0f1830;
+            border: 1px solid #1e2b49;
+            border-radius: 10px;
+            padding: 10px 12px
+        }
+
+        .kpi strong {
+            float: right
+        }
+
+        .group {
+            border-top: 1px dashed var(--line);
+            margin-top: 10px;
+            padding-top: 10px
+        }
+
+        .inputs {
+            display: grid;
+            gap: 8px
+        }
+
+        /* 裝備：一排5個 */
+        .inputs-5 {
+            grid-template-columns: repeat(5, minmax(90px, 1fr));
+        }
+
+        /* 技能 / 寵物 / 遺物：一排4個 */
+        .inputs-4 {
+            grid-template-columns: repeat(4, minmax(90px, 1fr));
+        }
+
+        .inputItem {
+            display: flex;
+            flex-direction: column;
+            gap: 6px
+        }
+
+        .inputItem label {
+            font-size: 12px;
+            color: #9fb2da
+        }
+
+        @media (max-width:840px) {
+
+            .inputs-5,
+            .inputs-4 {
+                grid-template-columns: repeat(3, minmax(90px, 1fr));
+            }
+
+            .label {
+                width: 180px;
+            }
+
+            /* 你原本的設定照舊 */
+        }
+
+        @media (max-width:520px) {
+
+            .inputs-5,
+            .inputs-4 {
+                grid-template-columns: repeat(2, minmax(90px, 1fr));
+            }
+
+            .label {
+                width: 150px;
+            }
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 999px;
+            font-size: 12px;
+            border: 1px solid #2b3b61;
+            background: #0e1730;
+            color: #bcd3ff
+        }
+
+        .hint {
+            color: #9fb2da;
+            font-size: 12px;
+            margin: -6px 0 8px
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrap">
+        <h1>原初之心計算機 <span class="badge">S1</span></h1>
+        <div class="sub">請輸入「目前等級」。計分規則：角色/裝備/技能/寵物只計算 <b>&gt; 100級</b> 的部分；遺物只計算 <b>&gt; 10級</b> 的部分。</div>
+
+        <div class="grid">
+            <!-- 左：輸入 -->
+            <div class="card" style="grid-column: span 8;">
+                <h2>通用</h2>
+                <div class="row">
+                    <div class="label">角色賽季等級（&gt;100 才計分：＋100/級）</div>
+                    <input id="lvChar" type="number" min="0" step="1" value="0" />
+                    <div class="unit">級</div>
+                </div>
+                <div class="row">
+                    <div class="label">角色祝福（已獲經驗 / 總經驗，單位：萬）</div>
+                    <input id="blessCur" type="number" min="0" step="1" value="0" />
+                    <div class="unit">萬 /</div>
+                    <input id="blessMax" type="number" min="1" step="1" value="1" />
+                    <div class="unit">萬</div>
+                </div>
+
+                <div class="group">
+                    <h2>裝備（&gt;100 只計超過的級數 ×38）</h2>
+                    <div class="hint">共 5 項，輸入各裝備的目前等級</div>
+                    <div id="equipInputs" class="inputs inputs-5"></div>
+                </div>
+
+                <div class="group">
+                    <h2>技能（&gt;100 只計超過的級數 ×13）</h2>
+                    <div class="hint">共 8 項，輸入各技能的目前等級</div>
+                    <div id="skillInputs" class="inputs inputs-4"></div>
+                </div>
+
+                <div class="group">
+                    <h2>寵物（&gt;100 只計超過的級數 ×14）</h2>
+                    <div class="hint">共 4 隻，輸入各寵物的目前等級</div>
+                    <div id="beastInputs" class="inputs inputs-4"></div>
+                </div>
+
+                <div class="group">
+                    <h2>遺物（&gt;10 只計超過的級數 ×57）</h2>
+                    <div class="hint">共 20 件，輸入各遺物的目前等級</div>
+                    <div id="relicInputs" class="inputs inputs-4"></div>
+                </div>
+
+                <div class="btns">
+                    <button class="primary" id="btnCopy">複製結果</button>
+                    <button class="ghost" id="btnReset">重置</button>
+                </div>
+            </div>
+
+            <!-- 右：輸出 -->
+            <div class="card out" style="grid-column: span 4;">
+                <h2>結果</h2>
+                <div class="total" id="total">0</div>
+                <div class="stars">原初之星：<span id="stars">10</span> 顆</div>
+                <div class="kpi">
+                    <div>角色系統合計 <strong id="kpiChar">0</strong></div>
+                    <div>其他系統合計 <strong id="kpiOther">0</strong></div>
+                </div>
+                <div class="break" id="breakdown"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 係數
+        const C = { char: 100, equip: 38, skill: 13, beast: 14, relic: 57 };
+        // 各組數量
+        const N = { equip: 5, skill: 8, beast: 4, relic: 20 };
+        // 門檻
+        const THRESHOLD = { char: 100, equip: 100, skill: 100, beast: 100, relic: 10 };
+
+        // DOM
+        const el = id => document.getElementById(id);
+        const lvChar = el('lvChar');
+        const blessCur = el('blessCur'), blessMax = el('blessMax');
+        const equipWrap = el('equipInputs'), skillWrap = el('skillInputs'), beastWrap = el('beastInputs'), relicWrap = el('relicInputs');
+        const totalEl = el('total'), kpiChar = el('kpiChar'), kpiOther = el('kpiOther'), breakdown = el('breakdown'), starsEl = el('stars');
+        const btnCopy = el('btnCopy'), btnReset = el('btnReset');
+
+        // 生成多欄位
+        function renderGroup(wrapper, prefix, count) {
+            const nodes = [];
+            for (let i = 1; i <= count; i++) {
+                const id = `${prefix}-${i}`;
+                const div = document.createElement('div');
+                div.className = 'inputItem';
+                div.innerHTML = `<label for="${id}">${prefix.toUpperCase()}-${i}</label>
+          <input id="${id}" type="number" min="0" step="1" value="0" />`;
+                wrapper.appendChild(div);
+                nodes.push(div.querySelector('input'));
+            }
+            return nodes;
+        }
+        const inputs = {
+            equip: renderGroup(equipWrap, 'equip', N.equip),
+            skill: renderGroup(skillWrap, 'skill', N.skill),
+            beast: renderGroup(beastWrap, 'beast', N.beast),
+            relic: renderGroup(relicWrap, 'relic', N.relic),
+        };
+
+        // 所有欄位清單（含祝福兩欄）
+        const allInputs = [lvChar, blessCur, blessMax, ...inputs.equip, ...inputs.skill, ...inputs.beast, ...inputs.relic];
+        const LS_KEY = 'origin-heart-calc-threshold__with-bless-division';
+
+        // 載入 localStorage
+        try {
+            const saved = JSON.parse(localStorage.getItem(LS_KEY) || '{}');
+            allInputs.forEach(f => { if (saved[f.id] != null) f.value = saved[f.id]; });
+        } catch (e) { }
+
+        // 正規化
+        function normInt(input) { input.value = Math.max(0, parseInt(input.value || 0, 10)); }
+        function clamp() {
+            normInt(lvChar);
+            normInt(blessCur);
+            // blessMax 至少為 1，避免除 0
+            blessMax.value = Math.max(1, parseInt(blessMax.value || 1, 10));
+            [...inputs.equip, ...inputs.skill, ...inputs.beast, ...inputs.relic].forEach(normInt);
+        }
+
+        // 計算「只取超過門檻的級數 × 係數」
+        function sumGroupWithThreshold(arr, threshold, coeff) {
+            let sum = 0;
+            for (const inp of arr) {
+                const lv = parseInt(inp.value || 0, 10);
+                const over = Math.max(0, lv - threshold);
+                sum += over * coeff;
+            }
+            return sum;
+        }
+
+        function calc() {
+            clamp();
+
+            const vChar = parseInt(lvChar.value || 0, 10);
+            const curBless = parseInt(blessCur.value || 0, 10);
+            const maxBless = Math.max(1, parseInt(blessMax.value || 1, 10));
+            const blessPercent = Math.min(100, (curBless / maxBless) * 100); // 轉百分比（0~100）
+
+            const scoreCharLv = Math.max(0, vChar - THRESHOLD.char) * C.char; // 角色只算>100
+            const scoreBless = Math.floor((blessPercent / 100) * C.char);     // 依比例加分（等比 100 分）
+
+            const sEquip = sumGroupWithThreshold(inputs.equip, THRESHOLD.equip, C.equip);
+            const sSkill = sumGroupWithThreshold(inputs.skill, THRESHOLD.skill, C.skill);
+            const sBeast = sumGroupWithThreshold(inputs.beast, THRESHOLD.beast, C.beast);
+            const sRelic = sumGroupWithThreshold(inputs.relic, THRESHOLD.relic, C.relic); // >10
+
+            const subtotalChar = scoreCharLv + scoreBless;
+            const subtotalOther = sEquip + sSkill + sBeast + sRelic;
+            const sum = subtotalChar + subtotalOther;
+
+            // 原初之星：總和/100 無條件捨去 + 10
+            const stars = Math.floor(sum / 100) + 10;
+
+            totalEl.textContent = sum.toLocaleString('zh-TW');
+            starsEl.textContent = stars.toLocaleString('zh-TW');
+            kpiChar.textContent = subtotalChar.toLocaleString('zh-TW');
+            kpiOther.textContent = subtotalOther.toLocaleString('zh-TW');
+
+            breakdown.innerHTML = `
+        角色等級：max(0, ${vChar}−100) ×100 = ${scoreCharLv}<br/>
+        祝福進度：${curBless} / ${maxBless} 萬 ⇒ ${blessPercent.toFixed(2)}% → +${scoreBless}<br/>
+        裝備小計（&gt;100）：${sEquip}<br/>
+        技能小計（&gt;100）：${sSkill}<br/>
+        寵物小計（&gt;100）：${sBeast}<br/>
+        遺物小計（&gt;10）：${sRelic}
+      `;
+
+            // 存檔
+            const data = {};
+            allInputs.forEach(f => data[f.id] = f.value);
+            try { localStorage.setItem(LS_KEY, JSON.stringify(data)); } catch (e) { }
+            return { sum, stars, scoreCharLv, scoreBless, sEquip, sSkill, sBeast, sRelic, vChar, curBless, maxBless, blessPercent };
+        }
+
+        // 綁定事件
+        allInputs.forEach(f => {
+            f.addEventListener('input', calc);
+            f.addEventListener('change', calc);
+        });
+
+        btnReset.addEventListener('click', () => {
+            allInputs.forEach(f => f.value = (f === blessMax ? 1 : 0));
+            calc();
+        });
+
+        btnCopy.addEventListener('click', () => {
+            const r = calc();
+            const text =
+                `【原初之心計算機（S1）】
+角色等級：${r.vChar}（只算>100） → +${r.scoreCharLv}
+祝福進度：${r.curBless} / ${r.maxBless} 萬（${r.blessPercent.toFixed(2)}%）→ +${r.scoreBless}
+裝備小計（>100）：${r.sEquip}
+技能小計（>100）：${r.sSkill}
+寵物小計（>100）：${r.sBeast}
+遺物小計（>10）：${r.sRelic}
+——————————————
+合計：${r.sum}
+原初之星：${r.stars} 顆`;
+            navigator.clipboard?.writeText(text).then(() => {
+                btnCopy.textContent = '已複製！';
+                setTimeout(() => btnCopy.textContent = '複製結果', 1200);
+            });
+        });
+
+        // 初次計算
+        calc();
+    </script>
+</body>
+
+</html>
