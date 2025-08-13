@@ -48,6 +48,19 @@
             grid-template-columns: repeat(12, 1fr)
         }
 
+        /* RWD：小螢幕改成單欄 */
+        @media (max-width: 768px) {
+            .grid {
+                grid-template-columns: 1fr;
+                /* 單欄 */
+            }
+
+            .grid .card {
+                grid-column: span 1 !important;
+                /* 不用再左右分欄 */
+            }
+        }
+
         .card {
             background: linear-gradient(180deg, rgba(255, 255, 255, .02), transparent), var(--card);
             border: 1px solid var(--line);
@@ -241,6 +254,38 @@
             color: #9fb2da;
             font-size: 12px;
             margin: -6px 0 8px
+        }
+
+        @media (max-width: 600px) {
+
+            .label {
+                width: 100%;
+            }
+
+            /* 只影響小螢幕的角色等級與祝福 */
+            .row:nth-of-type(1),
+            .row:nth-of-type(2) {
+                flex-direction: row;
+                /* 改成橫排 */
+                flex-wrap: wrap;
+                /* 避免太擠換行 */
+                align-items: center;
+                gap: 0.3rem;
+            }
+
+            .row:nth-of-type(1) .unit,
+            .row:nth-of-type(2) .unit {
+                margin-left: 0.3rem;
+                white-space: nowrap;
+            }
+
+            .kpi {
+                display: flex;
+                flex-direction: column;
+                /* 改成上下排 */
+                gap: 0.5rem;
+                /* 上下間距 */
+            }
         }
     </style>
 </head>
