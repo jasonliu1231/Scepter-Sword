@@ -287,10 +287,57 @@
                 /* 上下間距 */
             }
         }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 9999;
+            padding-top: 60px;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.8);
+        }
+
+        .modal-content {
+            display: block;
+            margin: auto;
+            max-width: 90%;
+            max-height: 80%;
+            border-radius: 10px;
+        }
+
+        .close {
+            position: absolute;
+            top: 20px;
+            right: 35px;
+            color: #fff;
+            font-size: 40px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .infoBtn {
+            font-size: 12px;
+            margin-left: 8px;
+            padding: 4px 8px;
+            border-radius: 6px;
+            border: 1px solid #2d3e66;
+            background: #1f2c4b;
+            color: #bcd3ff;
+            cursor: pointer;
+        }
     </style>
 </head>
 
 <body>
+    <!-- 彈窗 -->
+    <div id="imgModal" class="modal">
+        <span class="close">&times;</span>
+        <img class="modal-content" id="modalImg">
+    </div>
     <div class="wrap">
         <h1>原初之心計算機 <span class="badge">S1</span></h1>
         <div class="sub">請輸入「目前等級」。計分規則：角色/裝備/技能/寵物只計算 <b>&gt; 100級</b> 的部分；遺物只計算 <b>&gt; 10級</b> 的部分。</div>
@@ -313,25 +360,26 @@
                 </div>
 
                 <div class="group">
-                    <h2>裝備（&gt;100 只計超過的級數 ×38）</h2>
+                    <h2>裝備（&gt;100 只計超過的級數 ×38） <button class="infoBtn" data-img="1.png">說明</button></h2>
                     <div class="hint">共 5 項，輸入各裝備的目前等級</div>
                     <div id="equipInputs" class="inputs inputs-5"></div>
                 </div>
 
                 <div class="group">
-                    <h2>技能（&gt;100 只計超過的級數 ×13）</h2>
+                    <h2>技能（&gt;100 只計超過的級數 ×13） <button class="infoBtn" data-img="2.png">說明</button></h2>
+
                     <div class="hint">共 8 項，輸入各技能的目前等級</div>
                     <div id="skillInputs" class="inputs inputs-4"></div>
                 </div>
 
                 <div class="group">
-                    <h2>寵物（&gt;100 只計超過的級數 ×14）</h2>
+                    <h2>寵物（&gt;100 只計超過的級數 ×14） <button class="infoBtn" data-img="3.png">說明</button></h2>
                     <div class="hint">共 4 隻，輸入各寵物的目前等級</div>
                     <div id="beastInputs" class="inputs inputs-4"></div>
                 </div>
 
                 <div class="group">
-                    <h2>遺物（&gt;10 只計超過的級數 ×57）</h2>
+                    <h2>遺物（&gt;10 只計超過的級數 ×57） <button class="infoBtn" data-img="4.png">說明</button></h2>
                     <div class="hint">共 20 件，輸入各遺物的目前等級</div>
                     <div id="relicInputs" class="inputs inputs-4"></div>
                 </div>
@@ -500,6 +548,22 @@
 
         // 初次計算
         calc();
+
+        // 彈窗邏輯
+        const modal = document.getElementById("imgModal");
+        const modalImg = document.getElementById("modalImg");
+        const spanClose = modal.querySelector(".close");
+
+        document.querySelectorAll(".infoBtn").forEach(btn => {
+            btn.addEventListener("click", () => {
+                const imgSrc = btn.dataset.img; // 從 data-img 取路徑
+                modal.style.display = "block";
+                modalImg.src = imgSrc; // 這裡填圖片路徑（需放在專案可存取的位置）
+            });
+        });
+
+        spanClose.onclick = () => modal.style.display = "none";
+        modal.onclick = e => { if (e.target === modal) modal.style.display = "none"; }
     </script>
 </body>
 
