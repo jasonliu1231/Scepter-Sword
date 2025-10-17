@@ -10,9 +10,62 @@ body{
 h1{font-size:28px;margin:0 0 8px}
 .sub{color:var(--muted);margin-bottom:12px}
 
-.nav{display:flex;gap:8px;margin:8px 0 16px}
-.nav button{background:#1f2c4b;color:var(--text);border:1px solid #2d3e66;padding:8px 14px;border-radius:10px;cursor:pointer;font-weight:800}
-.nav button.on{background:#2463eb;border-color:#2463eb}
+/* === 模式切換（S1 / S2） === */
+.nav {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin: 20px 0 24px;
+}
+
+.nav button {
+  position: relative;
+  padding: 10px 24px;
+  border-radius: 12px;
+  border: 2px solid #2d3e66;
+  background: linear-gradient(180deg, #101a30, #0d1528);
+  color: #a5b7e0;
+  font-weight: 800;
+  font-size: 15px;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.4);
+}
+
+/* 滑鼠懸停 */
+.nav button:hover {
+  background: linear-gradient(180deg, #1a2c4a, #15223c);
+  border-color: #6aa9ff;
+  color: #eaf2ff;
+  box-shadow: 0 0 12px rgba(106, 169, 255, 0.4);
+}
+
+/* 當前選中（.on） */
+.nav button.on {
+  background: linear-gradient(180deg, #2c74ff, #1842a0);
+  color: #fff;
+  border-color: #2c74ff;
+  box-shadow: 0 0 20px rgba(36, 99, 235, 0.6);
+}
+
+/* 光流邊框效果 */
+.nav button.on::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 12px;
+  padding: 2px;
+  background: linear-gradient(90deg, #6aa9ff, #a3b3ff, #6aa9ff);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  animation: glow 3s linear infinite;
+}
+@keyframes glow {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 100% 50%; }
+}
 
 .grid{display:grid;gap:12px;grid-template-columns:repeat(12,1fr)}
 @media (max-width:768px){.grid{grid-template-columns:1fr}.grid .card{grid-column:span 1 !important}}
