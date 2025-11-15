@@ -31,7 +31,213 @@ const MODES = {
     C: { char: 100, equip: 18, skill: 7, beast: 8, relic: 33 },
     TH: { char: 130, equip: 130, skill: 130, beast: 130, relic: 13 },
     DIV: 27,
-    BASE: 45
+    BASE: 45,
+    COST_PER_POINT: {
+      equip: {
+        150: 10944,
+        151: 11056,
+        152: 11167,
+        153: 11222,
+        154: 11333,
+        155: 11444,
+        156: 11500,
+        157: 11611,
+        158: 11722,
+        159: 11778,
+        160: 11889,
+        161: 12000,
+        162: 12056,
+        163: 12167,
+        164: 12278,
+        165: 12333,
+        166: 12444,
+        167: 12556,
+        168: 12611,
+        169: 12722,
+        170: 12833,
+        171: 12889,
+        172: 13000,
+        173: 13111,
+        174: 13167,
+        175: 13278,
+        176: 13389,
+        177: 13444,
+        178: 13556,
+        179: 13667,
+        180: 13722,
+        181: 13833,
+        182: 13944,
+        183: 14000,
+        184: 14111,
+        185: 14222,
+        186: 14278,
+        187: 14389,
+        188: 14500,
+        189: 14556,
+        190: 14667,
+        191: 14778,
+        192: 14833,
+        193: 14944,
+        194: 15056,
+        195: 15111,
+        196: 15222,
+        197: 15333,
+        198: 15389,
+        199: 15500,
+        200: 15611,
+        201: 15667,
+        202: 15778,
+        203: 15889,
+        204: 15944,
+        205: 16056,
+        206: 16167,
+        207: 16222,
+        208: 16333,
+        209: 16444,
+        210: 16500,
+        211: 16611,
+        212: 16722,
+        213: 16778,
+        214: 16889,
+        215: 17000,
+        216: 17056,
+        217: 17167,
+        218: 17278,
+        219: 17333,
+        220: 17444,
+        221: 17500,
+        222: 17611,
+        223: 17722,
+        224: 17778,
+        225: 17889,
+        226: 18000
+      },
+      skill: {
+        150: 16343,
+        151: 16457,
+        152: 16571,
+        153: 16686,
+        154: 16800,
+        155: 17029,
+        156: 17143,
+        157: 17257,
+        158: 17371,
+        159: 17486,
+        160: 17714,
+        161: 17829,
+        162: 17943,
+        163: 18057,
+        164: 18171,
+        165: 18400,
+        166: 18514,
+        167: 18629,
+        168: 18743,
+        169: 18857,
+        170: 19086,
+        171: 19200,
+        172: 19314,
+        173: 19429,
+        174: 19543,
+        175: 19771,
+        176: 19886,
+        177: 20000,
+        178: 20114,
+        179: 20229,
+        180: 20457,
+        181: 20571,
+        182: 20686,
+        183: 20800,
+        184: 20914,
+        185: 21143,
+        186: 21257,
+        187: 21371,
+        188: 21486,
+        189: 21600,
+        190: 21829,
+        191: 21943,
+        192: 22057,
+        193: 22171,
+        194: 22286,
+        195: 22514,
+        196: 22629,
+        197: 22743,
+        198: 22857,
+        199: 22971,
+        200: 23200,
+        201: 23314,
+        202: 23429,
+        203: 23543,
+        204: 23771,
+        205: 23886,
+        206: 24000,
+        207: 24229,
+        208: 24343,
+        209: 24457,
+        210: 24571,
+        211: 24686,
+        212: 24914,
+        213: 25029,
+        214: 25143,
+        215: 25257,
+        216: 25371,
+        217: 25600,
+        218: 25714,
+        219: 25829,
+        220: 25943,
+        221: 26057,
+        222: 26286,
+        223: 26400,
+        224: 26514,
+        225: 26629,
+        226: 26743
+      },
+      beast: {
+        150: 19775,
+        151: 20075,
+        152: 20350,
+        153: 20650,
+        154: 20925,
+        155: 21225,
+        156: 21500,
+        157: 21800,
+        158: 22075,
+        159: 22375,
+        160: 22650,
+        161: 22925,
+        162: 23500,
+        163: 23800,
+        164: 24075,
+        165: 24100,
+        166: 24375,
+        167: 24650,
+        168: 24950,
+        169: 25000,
+        170: 25500,
+        171: 25750,
+        172: 26000,
+        173: 26250,
+        174: 26500,
+        175: 26750,
+        176: 27250,
+        177: 27500,
+        178: 27750,
+        179: 28000,
+        180: 28250,
+        181: 28500
+      },
+      relic: {
+        14: 12273,
+        15: 13500,
+        16: 14727,
+        17: 15955,
+        18: 17182,
+        19: 18409,
+        20: 19636,
+        21: 20864,
+        22: 22091,
+        23: 23318
+      }
+    }
   },
 
   S3: {
@@ -65,7 +271,6 @@ const MODES = {
     BASE: 65 // 再 +111
   }
 };
-
 // ===== 其它常數 =====
 const N = { equip: 5, skill: 8, beast: 4, relic: 20 };
 
@@ -92,6 +297,7 @@ const equipTitle = el("equipTitle"),
   beastTitle = el("beastTitle"),
   relicTitle = el("relicTitle");
 const charLabel = el("charLabel");
+const recommendLine = el("recommendLine"); // ★ 新增：顯示推薦用
 
 // 生成多欄位
 function renderGroup(wrapper, prefix, count) {
@@ -129,7 +335,7 @@ try {
 
 let MODE = MODES[localStorage.getItem(LS_MODE) || "S1"];
 
-// 工具
+// ===== 小工具 =====
 function normInt(input) {
   input.value = Math.max(0, parseInt(input.value || 0, 10));
 }
@@ -149,7 +355,86 @@ function sumGroup(arr, threshold, coeff) {
   return sum;
 }
 
-// 主計算
+// 取得一組欄位中的「最低等級」
+function getMinLevel(arr) {
+  if (!arr || !arr.length) return 0;
+  let min = Infinity;
+  for (const inp of arr) {
+    const v = parseInt(inp.value || 0, 10);
+    if (!isNaN(v)) {
+      min = Math.min(min, v);
+    }
+  }
+  return min === Infinity ? 0 : min;
+}
+
+// 從當前模式的 COST_PER_POINT 拿「一分價值」
+function getCostPerPointFor(mode, type, level) {
+  if (!mode || !mode.COST_PER_POINT) return null;
+  const table = mode.COST_PER_POINT[type];
+  if (!table) return null;
+
+  const keys = Object.keys(table)
+    .map((k) => parseInt(k, 10))
+    .sort((a, b) => a - b);
+  if (!keys.length) return null;
+
+  if (level <= keys[0]) return table[keys[0]];
+  if (level >= keys[keys.length - 1]) return table[keys[keys.length - 1]];
+
+  if (table[level] != null) return table[level];
+
+  let best = keys[0];
+  for (const k of keys) {
+    if (Math.abs(k - level) < Math.abs(best - level)) best = k;
+  }
+  return table[best];
+}
+
+// 更新「建議優先升級」
+function updateRecommendation() {
+  const mode = MODE;
+  if (!mode || !mode.COST_PER_POINT) {
+    if (recommendLine) recommendLine.textContent = "";
+    return;
+  }
+
+  const costs = [];
+
+  // ★ 改成取最低等級
+  const lvEquip = getMinLevel(inputs.equip);
+  const lvSkill = getMinLevel(inputs.skill);
+  const lvBeast = getMinLevel(inputs.beast);
+  const lvRelic = getMinLevel(inputs.relic);
+
+  const cEquip = getCostPerPointFor(mode, "equip", lvEquip + 1);
+  if (cEquip != null) costs.push({ key: "equip", label: "裝備", cost: cEquip });
+
+  const cSkill = getCostPerPointFor(mode, "skill", lvSkill + 1);
+  if (cSkill != null) costs.push({ key: "skill", label: "技能", cost: cSkill });
+
+  const cBeast = getCostPerPointFor(mode, "beast", lvBeast + 1);
+  if (cBeast != null) costs.push({ key: "beast", label: "寵物", cost: cBeast });
+
+  const cRelic = getCostPerPointFor(mode, "relic", lvRelic + 1);
+  if (cRelic != null) costs.push({ key: "relic", label: "遺物", cost: cRelic });
+
+  if (!costs.length || !recommendLine) {
+    if (recommendLine) recommendLine.textContent = "";
+    return;
+  }
+
+  costs.sort((a, b) => a.cost - b.cost); // 一分價值越小越便宜
+  const best = costs[0];
+
+  const detail = costs
+    .map((c) => `${c.label}（最低等級 ${c.key === "relic" ? lvRelic : c.key === "beast" ? lvBeast : c.key === "skill" ? lvSkill : lvEquip}）：一分約 ${c.cost.toLocaleString("zh-TW")}`)
+    .join("<br>");
+
+  recommendLine.innerHTML = `建議優先升級：<b>${best.label}</b><br><span class="hint">${detail}</span>`;
+}
+
+// ===== 主計算 =====
 function calc() {
   clamp();
   const vChar = parseInt(lvChar.value || 0, 10);
@@ -177,7 +462,6 @@ function calc() {
   const subtotalOther = sEquip + sSkill + sBeast + sRelic;
   const sum = subtotalChar + subtotalOther;
 
-  // ⭐ 星數計算：依模式 DIV、BASE 不同
   const stars = Math.floor(sum / MODE.DIV) + MODE.BASE;
 
   totalEl.textContent = sum.toLocaleString("zh-TW");
@@ -195,6 +479,9 @@ function calc() {
     ${MODE.labels.relic}：${sRelic}
   `;
 
+  // ★ 每次計算後更新推薦
+  updateRecommendation();
+
   const data = {};
   allInputs.forEach((f) => (data[f.id] = f.value));
   try {
@@ -204,7 +491,7 @@ function calc() {
   return { sum, stars };
 }
 
-// 更新 UI
+// ===== UI 更新 =====
 function applyModeText() {
   modeBadge.textContent = MODE.badge;
   subText.innerHTML = MODE.sub;
