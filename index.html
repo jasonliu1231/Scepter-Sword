@@ -25,6 +25,7 @@
         <div class="nav">
             <button class="on" data-mode="S1">第一賽季</button>
             <button data-mode="S2">第二賽季</button>
+            <button data-mode="S3">第三賽季</button>
         </div>
 
         <div class="grid">
@@ -79,7 +80,11 @@
 
             <!-- 右：輸出 -->
             <div class="card out" style="grid-column: span 4;">
-                <h2>結果</h2>
+                <h2>
+                    結果
+                    <!-- 新增：原初之星對照表按鈕 -->
+                    <button class="infoBtn" data-img="star.png">星數表</button>
+                </h2>
                 <div class="total" id="total">0</div>
                 <div class="stars">原初之星：<span id="stars">10</span> 顆</div>
                 <div class="kpi">
