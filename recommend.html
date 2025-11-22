@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>兩件裝備輸出比較（滿爆擊率，含精通）</title>
+    <style>
+        /* 全局樣式 */
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            padding: 24px;
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            background: radial-gradient(circle at top, #2b2f3a 0, #111319 55%, #05060a 100%);
+            color: #f5f5f5;
+        }
+
+        .page {
+            width: 100%;
+            max-width: 980px;
+        }
+
+        /* 頁首 */
+        .page-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 10px;
+        }
+
+        h1 {
+            font-size: 22px;
+            margin: 0;
+            letter-spacing: 1px;
+        }
+
+        h2 {
+            font-size: 16px;
+            margin: 20px 0 6px;
+        }
+
+        .note {
+            font-size: 12px;
+            color: #c5c6d0;
+            margin-bottom: 12px;
+            padding: 10px 12px;
+            border-radius: 8px;
+            background: rgba(20, 24, 33, 0.85);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        label {
+            display: inline-block;
+            margin-top: 6px;
+            font-size: 13px;
+        }
+
+        input {
+            padding: 6px 8px;
+            margin-top: 3px;
+            font-size: 13px;
+            width: 190px;
+            border-radius: 6px;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            background: rgba(10, 12, 20, 0.9);
+            color: #f5f5f5;
+            outline: none;
+            transition: border-color 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+        }
+
+        input::placeholder {
+            color: #767b86;
+        }
+
+        input:focus {
+            border-color: #4ea3ff;
+            box-shadow: 0 0 0 1px rgba(78, 163, 255, 0.6);
+            background: rgba(10, 14, 26, 0.95);
+        }
+
+        .row {
+            margin-top: 4px;
+        }
+
+        .block {
+            border-radius: 10px;
+            padding: 14px 14px 10px;
+            margin-top: 10px;
+            background: rgba(17, 21, 30, 0.96);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            box-shadow: 0 10px 26px rgba(0, 0, 0, 0.45);
+        }
+
+        /* 裝備區塊 */
+        .flex-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 18px;
+            margin-top: 10px;
+        }
+
+        .gear-box {
+            flex: 1;
+            min-width: 280px;
+            border-radius: 10px;
+            padding: 12px 14px 10px;
+            background: linear-gradient(145deg, #181d28 0, #141827 50%, #131623 100%);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 10px 24px rgba(0, 0, 0, 0.55);
+        }
+
+        .gear-box strong {
+            font-size: 14px;
+            display: inline-block;
+            margin-bottom: 4px;
+            color: #ffd36a;
+        }
+
+        /* 按鈕 */
+        button {
+            margin-top: 16px;
+            margin-right: 8px;
+            padding: 7px 16px;
+            font-size: 14px;
+            cursor: pointer;
+            border-radius: 999px;
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            background: linear-gradient(135deg, #2e6bff, #5bb4ff);
+            color: #fff;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            box-shadow: 0 8px 18px rgba(0, 0, 0, 0.5);
+            transition: transform 0.08s ease, box-shadow 0.08s ease, filter 0.08s ease;
+        }
+
+        button:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 12px 22px rgba(0, 0, 0, 0.6);
+            filter: brightness(1.05);
+        }
+
+        button:active {
+            transform: translateY(0);
+            box-shadow: 0 6px 14px rgba(0, 0, 0, 0.55);
+            filter: brightness(0.98);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            border-color: rgba(255, 255, 255, 0.28);
+            color: #e4e6ef;
+            box-shadow: none;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.04);
+        }
+
+        .result {
+            margin-top: 16px;
+            padding: 12px 14px;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            background: rgba(15, 19, 27, 0.96);
+            white-space: pre-line;
+            font-size: 14px;
+            box-shadow: 0 10px 22px rgba(0, 0, 0, 0.55);
+        }
+
+        #result {
+            margin-top: 18px;
+        }
+
+        #priorityResult {
+            margin-top: 10px;
+        }
+
+        @media (max-width: 640px) {
+            body {
+                padding: 16px;
+            }
+
+            .page-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            h1 {
+                font-size: 20px;
+            }
+
+            input {
+                width: 100%;
+            }
+
+            .gear-box {
+                min-width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="page">
+        <div class="page-header">
+            <h1>兩件裝備輸出比較（滿爆擊率，含精通）</h1>
+            <button class="btn-secondary" onclick="location.href='index.html'">回主頁</button>
+        </div>
+
+        <div class="note">
+            爆擊率視為已滿 100%。比較攻擊 / 爆傷 / 技能增傷 / 對怪增傷 / 精通對輸出的影響。<br>
+            簡化傷害模型：攻擊 × (1+技能增傷%) × (1+爆傷%) × (1+特攻%) × (1+精通加成%)。
+        </div>
+
+        <h2>一、目前面板</h2>
+        <div class="block">
+            <div class="row">
+                <label>攻擊（純數值）<br><input id="atk" type="number" /></label>
+            </div>
+            <div class="row">
+                <label>爆擊傷害 %<br><input id="critDmg" type="number" /></label>
+            </div>
+            <div class="row">
+                <label>技能增傷 / 傷害加成 %<br><input id="skillBonus" type="number" /></label>
+            </div>
+            <div class="row">
+                <label>對怪增傷 %<br><input id="enemyBonus" type="number" value="0" /></label>
+            </div>
+            <div class="row">
+                <label>精通數值<br><input id="mastery" type="number" value="0" /></label>
+            </div>
+            <div class="row">
+                <label>精通換算 %（UI 顯示）<br><input id="masteryPercent" type="number" value="0" /></label>
+            </div>
+        </div>
+
+        <h2>二、裝備屬性變化（並排）</h2>
+
+        <div class="flex-container">
+            <div class="gear-box">
+                <strong>裝備 A 增益</strong>
+                <div class="row"><label>攻擊 +<br><input id="a_atk" type="number" value="0" /></label></div>
+                <div class="row"><label>爆傷 +%<br><input id="a_cd" type="number" value="0" /></label></div>
+                <div class="row"><label>技能增傷 / 傷害加成 +%<br><input id="a_s" type="number" value="0" /></label></div>
+                <div class="row"><label>對怪增傷 +%<br><input id="a_em" type="number" value="0" /></label></div>
+                <div class="row"><label>精通 +<br><input id="a_mas" type="number" value="0" /></label></div>
+            </div>
+
+            <div class="gear-box">
+                <strong>裝備 B 增益</strong>
+                <div class="row"><label>攻擊 +<br><input id="b_atk" type="number" value="0" /></label></div>
+                <div class="row"><label>爆傷 +%<br><input id="b_cd" type="number" value="0" /></label></div>
+                <div class="row"><label>技能增傷 / 傷害加成 +%<br><input id="b_s" type="number" value="0" /></label></div>
+                <div class="row"><label>對怪增傷 +%<br><input id="b_em" type="number" value="0" /></label></div>
+                <div class="row"><label>精通 +<br><input id="b_mas" type="number" value="0" /></label></div>
+            </div>
+        </div>
+
+        <button onclick="calc()">計算兩件裝備輸出</button>
+        <button onclick="calcPriority()">推薦優先升級屬性</button>
+
+        <div id="result" class="result"></div>
+        <div id="priorityResult" class="result"></div>
+    </div>
+
+    <script>
+        function calcDamage(A, S, CD, EM, M) {
+            return A * (1 + S) * (1 + CD) * (1 + EM) * (1 + M);
+        }
+
+        // 計算兩件裝備 A / B 的輸出
+        function calc() {
+            const atkVal = parseFloat(document.getElementById('atk').value);
+            const CD0 = parseFloat(document.getElementById('critDmg').value) / 100;
+            const S0 = parseFloat(document.getElementById('skillBonus').value) / 100;
+            const EM0 = parseFloat(document.getElementById('enemyBonus').value) / 100;
+
+            const masteryVal = parseFloat(document.getElementById('mastery').value);
+            const masteryPercentVal = parseFloat(document.getElementById('masteryPercent').value);
+
+            if (isNaN(atkVal) || atkVal <= 0) {
+                document.getElementById('result').textContent = "請輸入正確的目前面板（攻擊需大於 0）。";
+                return;
+            }
+
+            const M0 = masteryPercentVal / 100;
+            const k = masteryVal > 0 ? (masteryPercentVal / masteryVal) : 0;
+
+            const aAtk = parseFloat(document.getElementById('a_atk').value) || 0;
+            const aCd = (parseFloat(document.getElementById('a_cd').value) || 0) / 100;
+            const aS = (parseFloat(document.getElementById('a_s').value) || 0) / 100;
+            const aEm = (parseFloat(document.getElementById('a_em').value) || 0) / 100;
+            const aMas = parseFloat(document.getElementById('a_mas').value) || 0;
+
+            const bAtk = parseFloat(document.getElementById('b_atk').value) || 0;
+            const bCd = (parseFloat(document.getElementById('b_cd').value) || 0) / 100;
+            const bS = (parseFloat(document.getElementById('b_s').value) || 0) / 100;
+            const bEm = (parseFloat(document.getElementById('b_em').value) || 0) / 100;
+            const bMas = parseFloat(document.getElementById('b_mas').value) || 0;
+
+            const base = calcDamage(atkVal, S0, CD0, EM0, M0);
+
+            const atkA = atkVal + aAtk;
+            const CDA = CD0 + aCd;
+            const SA = S0 + aS;
+            const EMA = EM0 + aEm;
+            const masteryA = masteryVal + aMas;
+            const MA = (masteryA * k) / 100;
+            const dmgA = calcDamage(atkA, SA, CDA, EMA, MA);
+
+            const atkB = atkVal + bAtk;
+            const CDB = CD0 + bCd;
+            const SB = S0 + bS;
+            const EMB = EM0 + bEm;
+            const masteryB = masteryVal + bMas;
+            const MB = (masteryB * k) / 100;
+            const dmgB = calcDamage(atkB, SB, CDB, EMB, MB);
+
+            const gainA = (dmgA / base - 1) * 100;
+            const gainB = (dmgB / base - 1) * 100;
+            const diff = (dmgA / dmgB - 1) * 100;
+
+            let choose =
+                dmgA > dmgB
+                    ? `建議選擇：裝備 A（比 B 多 ${diff.toFixed(2)}% 傷害）`
+                    : dmgB > dmgA
+                        ? `建議選擇：裝備 B（比 A 多 ${(-diff).toFixed(2)}% 傷害）`
+                        : "兩者幾乎相同，可依防禦或功能取捨。";
+
+            document.getElementById('result').textContent =
+                `裝備 A 提升：約 ${gainA.toFixed(2)}%\n` +
+                `裝備 B 提升：約 ${gainB.toFixed(2)}%\n\n` +
+                choose;
+        }
+
+        // 推薦優先升級屬性（每 +1% 的效率）
+        function calcPriority() {
+            const atkVal = parseFloat(document.getElementById('atk').value);
+            const critDmgVal = parseFloat(document.getElementById('critDmg').value);
+            const skillBonusVal = parseFloat(document.getElementById('skillBonus').value);
+            const enemyBonusVal = parseFloat(document.getElementById('enemyBonus').value);
+            const masteryVal = parseFloat(document.getElementById('mastery').value);
+            const masteryPercentVal = parseFloat(document.getElementById('masteryPercent').value);
+
+            if (
+                isNaN(atkVal) || isNaN(critDmgVal) || isNaN(skillBonusVal) ||
+                isNaN(enemyBonusVal) || isNaN(masteryVal) || isNaN(masteryPercentVal) ||
+                atkVal <= 0
+            ) {
+                document.getElementById('priorityResult').textContent =
+                    '請先正確輸入目前面板（攻擊 > 0，其它數值可為 0 或任意數字）。';
+                return;
+            }
+
+            const S0 = skillBonusVal / 100;
+            const CD0 = critDmgVal / 100;
+            const EM0 = enemyBonusVal / 100;
+            const M0 = masteryPercentVal / 100;
+
+            const base = calcDamage(atkVal, S0, CD0, EM0, M0);
+
+            // 攻擊 +1%
+            const dmgAtk = calcDamage(atkVal * 1.01, S0, CD0, EM0, M0);
+            const gainAtk = (dmgAtk / base - 1) * 100;
+
+            // 爆傷 +1%
+            const dmgCd = calcDamage(atkVal, S0, CD0 + 0.01, EM0, M0);
+            const gainCd = (dmgCd / base - 1) * 100;
+
+            // 技能增傷 +1%
+            const dmgS = calcDamage(atkVal, S0 + 0.01, CD0, EM0, M0);
+            const gainS = (dmgS / base - 1) * 100;
+
+            // 對怪增傷 +1%
+            const dmgEm = calcDamage(atkVal, S0, CD0, EM0 + 0.01, M0);
+            const gainEm = (dmgEm / base - 1) * 100;
+
+            // 精通加成 +1%
+            const M1 = (masteryPercentVal + 1) / 100;
+            const dmgM = calcDamage(atkVal, S0, CD0, EM0, M1);
+            const gainM = (dmgM / base - 1) * 100;
+
+            const options = [
+                { name: '攻擊 +1%', gain: gainAtk },
+                { name: '爆擊傷害 +1%', gain: gainCd },
+                { name: '技能增傷 / 傷害加成 +1%', gain: gainS },
+                { name: '對怪增傷 +1%', gain: gainEm },
+                { name: '精通加成 +1%', gain: gainM },
+            ];
+
+            options.sort((a, b) => b.gain - a.gain);
+
+            let text =
+                '以目前面板估算，各屬性「每提升 1%」的大約傷害提升：\n\n' +
+                `攻擊 +1%         → 約 +${gainAtk.toFixed(3)}% 傷害\n` +
+                `爆擊傷害 +1%     → 約 +${gainCd.toFixed(3)}% 傷害\n` +
+                `技能增傷 +1%     → 約 +${gainS.toFixed(3)}% 傷害\n` +
+                `對怪增傷 +1%     → 約 +${gainEm.toFixed(3)}% 傷害\n` +
+                `精通加成 +1%     → 約 +${gainM.toFixed(3)}% 傷害\n\n` +
+                '優先建議（由高到低）：\n';
+
+            options.forEach((o, idx) => {
+                text += `${idx + 1}. ${o.name}（約 +${o.gain.toFixed(3)}%）\n`;
+            });
+
+            document.getElementById('priorityResult').textContent = text;
+        }
+    </script>
+</body>
+
+</html>
