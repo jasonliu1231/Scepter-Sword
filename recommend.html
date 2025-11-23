@@ -204,6 +204,95 @@
                 min-width: 100%;
             }
         }
+
+        /* ---------- 全局字體放大 ---------- */
+        body {
+            font-size: 18px;
+        }
+
+        h1 {
+            font-size: 26px;
+        }
+
+        h2 {
+            font-size: 20px;
+        }
+
+        label {
+            font-size: 16px;
+        }
+
+        input {
+            font-size: 16px;
+        }
+
+        button {
+            font-size: 16px;
+        }
+
+        .result {
+            font-size: 16px;
+        }
+
+        /* ------------------ RWD：平板 ------------------ */
+        @media (max-width: 880px) {
+            body {
+                font-size: 17px;
+            }
+
+            h1 {
+                font-size: 24px;
+            }
+
+            h2 {
+                font-size: 19px;
+            }
+
+            input {
+                font-size: 16px;
+            }
+        }
+
+        /* ------------------ RWD：手機 ------------------ */
+        @media (max-width: 640px) {
+            body {
+                font-size: 16px;
+            }
+
+            h1 {
+                font-size: 22px;
+            }
+
+            h2 {
+                font-size: 18px;
+            }
+
+            label {
+                font-size: 15px;
+            }
+
+            input {
+                font-size: 15px;
+                width: 100%;
+            }
+
+            /* 裝備區塊直排 */
+            .flex-container {
+                flex-direction: column;
+            }
+
+            /* 按鈕直排 + 放大觸控區 */
+            button {
+                width: 100%;
+                padding: 12px;
+                font-size: 17px;
+            }
+
+            .result {
+                font-size: 15px;
+                padding: 14px;
+            }
+        }
     </style>
 </head>
 
